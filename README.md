@@ -1,1 +1,2 @@
-# iot_greenhouse
+# IOT_greenhouse
+Raspberry Pi + Tkinter + Flask
