@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../static/circle.css">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="../static/bootstrap.min.css">
+<title>مانیتورینگ</title>
+
+</head>
+<!-------------------------------->
+<body>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class = "zone_temp">  
+      <div class = "c100 p{{temp}} big dark">
+        <span>{{temp}} oC</span>
+          <div class="slice">
+            <div class="bar"></div>
+              <div class="fill"></div>
+          </div>
+      </div>
+      <span>دما</span>
+    </div>
+    <div class="zone_status1">
+      <div class="cir out{{relay1}}"></div>
+      <span>وضعیت خروجی یک</span>
+      <br><br><br>
+      <div >
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a class="btn btn-primary" href="../1/on">روشن</a>
+          <a class="btn btn-primary" href="../1/off">خاموش</a>
+      </div>
+      </div>  
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class = "zone_humidity">
+      <div class = "c100 p{{humidity}} big dark">
+        <span>{{humidity}} %</span>
+          <div class="slice">
+            <div class="bar"></div>
+              <div class="fill"></div>
+          </div>
+      </div>
+      <span>رطوبت</span>
+    </div>  
+    
+    <div class="zone_status2">
+      <div class="cir out{{relay2}}"></div>
+      <span>وضعیت خروجی دو</span>
+      <br><br><br>
+      
+      <div class="btn-group" role="group" aria-label="Basic example">
+          <a class="btn btn-primary" href="../2/on">روشن</a>
+          <a class="btn btn-primary" href="../2/off">خاموش</a>
+      </div>
+      
+    </div>
+  </div>
+  <div class="col-md-4">
+
+
+    <div class = "zone_light">
+      <div class = "c100 p{{light}} big dark">
+        <span>{{light}}</span>
+          <div class="slice">
+            <div class="bar"></div>
+              <div class="fill"></div>
+          </div>
+      </div>
+      <span>نور</span>
+    </div>  
+    
+    <div class="zone_status2">
+      <div class="cir out{{light}}"></div>
+      <span>وضعیت نور</span>
+      <br><br><br>
+      
+      <div class="btn-group" role="group" aria-label="Basic example">
+          <a class="btn btn-primary" href="../3/on">روشن</a>
+          <a class="btn btn-primary" href="../3/off">خاموش</a>
+      </div>
+      
+    </div>
+
+
+  </div>
+</div>
+
+
+<!--------------------------------->
+
+
+</body>
+</html>

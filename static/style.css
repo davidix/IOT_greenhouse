@@ -1,0 +1,38 @@
+body
+{
+    background-color: #b9b9b9 !important;
+    color: red;
+}
+
+
+.button-3d {
+    position:relative;
+    width: auto;
+    color:#ecf0f1;
+    text-decoration:none;
+    border-radius:5px;
+    border:solid 1px #f39c12;
+    background:#e67e22;
+    text-align:center;
+    padding:16px 18px 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    transition: all 0.1s;
+  
+    -webkit-box-shadow: 0px 6px 0px #d35400;
+    -moz-box-shadow: 0px 6px 0px #d35400;
+    box-shadow: 0px 6px 0px #d35400;
+  }
+
+  .button-3d:active{
+    -webkit-box-shadow: 0px 2px 0px #d35400;
+    -moz-box-shadow: 0px 2px 0px #d35400;
+    box-shadow: 0px 2px 0px #d35400;
+    position:relative;
+    top:4px;
+  }
+
+
+
