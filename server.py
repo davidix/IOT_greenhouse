@@ -14,7 +14,6 @@ relay1=0
 relay2=0
 key=0
 
-
 def pinpress(pin):
     create_table()
     cnt = sql.connect(dir)
