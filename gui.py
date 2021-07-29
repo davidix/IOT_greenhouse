@@ -22,7 +22,7 @@ def pinpress(pin):
     c.close()
     cnt.close()
     print(pin)
-#------------------------------------
+#-------------------------------------------
 def create_table():
     cnt = sql.connect(dir)
     c = cnt.cursor()
