@@ -28,7 +28,7 @@ def create_table():
     cnt = sql.connect(dir)
     c = cnt.cursor()
     c.execute("DROP TABLE IF EXISTS sqldata")
-    c.execute("CREATE TABLE sqldata (time_ DATETIME , temp_ FLOAT , humidity FLOAT,light bool)")
+    c.execute("CREATE TABLE sqldata (time_ DATETIME , temp_ FLOAT , humidity FLOAT,light bool,key int)")
     cnt.commit()
     c.close()
     cnt.close()
