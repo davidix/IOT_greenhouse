@@ -3,8 +3,9 @@ import tkinter as tk
 from flask import Flask , render_template , redirect
 import os
 from flask_apscheduler import APScheduler
-
+ 
 #-------------------------------------------
+
 dir = os.path.dirname(os.path.abspath(__file__)) + '/sqldata.db'
 app = Flask(__name__)
 temp=20
