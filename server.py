@@ -1,13 +1,20 @@
 import RPi.GPIO as pi
 import sqlite3 as sql
 import tkinter as tk
+import time
 from flask import Flask , render_template , redirect
 import os
 from flask_apscheduler import APScheduler
 import Adafruit_DHT
 
+pi.setmode(pi.BCM)
+
+
 #-------------------------------------------
-dhtpin=17
+dhtpin=11
+delayt = .1 
+value = 0 
+ldr = 7 
 
 dir = os.path.dirname(os.path.abspath(__file__)) + '/sqldata.db'
 DHT_sensor=Adafruit_DHT.DHT11
@@ -20,6 +27,25 @@ light=0
 relay1=0
 relay2=0
 key=0
+
+def rc_time (ldr):
+    count = 0
+ 
+    #Output on the pin for
+    Pi.setup(ldr, Pi.OUT)
+    Pi.output(ldr, False)
+    time.sleep(delayt)
+ 
+    #Change the pin back to input
+    Pi.setup(ldr, Pi.IN)
+ 
+    #Count until the pin goes high
+    while (Pi.input(ldr) == 0):
+        count += 1
+ 
+    return count
+ 
+
 
 if humidity is not None and temp is not None:
   print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temp, humidity))
@@ -88,6 +114,7 @@ def cnt_rel(relay,status):
 
 
 
+
 #----------------------------------------
 @app.route('/')
 def index():
@@ -114,4 +141,18 @@ if __name__=='__main__':
     scheduler.start()
     app.run(debug=True)
 
+try:
+    # Main loop
+    while True:
+        print("Ldr Value:")
+        value = rc_time(ldr)
+        print(value)
+        if ( value <= 10000 ):
+                print("Lights are ON")
+        if (value > 10000):
+                print("Lights are OFF")
+except KeyboardInterrupt:
+    pass
+finally:
+    Pi.cleanup()
 
