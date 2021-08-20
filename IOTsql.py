@@ -1,13 +1,27 @@
 import sqlite3 as sql
 from flask import Flask
+import Adafruit_DHT
 import os
+
+
+ 
+
 #from flask_apscheduler import APScheduler
 
 dir = os.path.dirname(os.path.abspath(__file__)) + '/datasql.db'
 app = Flask(__name__)
+sensor=Adafruit_DHT.DHT11
 
 temp = 20
 humidity = 40
+
+def GetDHT():
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, dhtpin)
+
+    if humidity is not None and temperature is not None:
+        print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+    else:
+        print('مشکل دریافت اطلاعات!!!')
 
 def create():
     cnt = sql.connect(dir)
@@ -17,6 +31,7 @@ def create():
     c.close()
     cnt.close()
 
+    
 
 def insert():
     global temp,humidity

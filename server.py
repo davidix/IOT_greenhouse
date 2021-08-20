@@ -1,19 +1,30 @@
+#import RPi.GPIO as pi
 import sqlite3 as sql
 import tkinter as tk
 from flask import Flask , render_template , redirect
 import os
 from flask_apscheduler import APScheduler
- 
+import Adafruit_DHT
+
 #-------------------------------------------
+dhtpin=17
 
 dir = os.path.dirname(os.path.abspath(__file__)) + '/sqldata.db'
+DHT_sensor=Adafruit_DHT.DHT11
+sensor_humidity, sensor_temperature = Adafruit_DHT.read_retry(DHT_sensor, dhtpin)
+
 app = Flask(__name__)
-temp=20
-humidity =30
+temp=sensor_temperature
+humidity =sensor_humidity
 light=0
 relay1=0
 relay2=0
 key=0
+
+if humidity is not None and temp is not None:
+  print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temp, humidity))
+else:
+  print('مشکل دریافت اطلاعات!!!')
 
 def pinpress(pin):
     create_table()
