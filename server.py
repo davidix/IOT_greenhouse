@@ -1,4 +1,4 @@
-#import RPi.GPIO as pi
+import RPi.GPIO as pi
 import sqlite3 as sql
 import tkinter as tk
 from flask import Flask , render_template , redirect

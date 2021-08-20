@@ -1,3 +1,4 @@
+# این فایل برای تست دکمه و پایه های بورد می باشد
 import sqlite3 as sql
 import tkinter as tk
 import os
