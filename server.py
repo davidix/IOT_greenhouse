@@ -4,53 +4,59 @@ import tkinter as tk
 import time
 from flask import Flask , render_template , redirect
 import os
-from flask_apscheduler import APScheduler
-import Adafruit_DHT
+import dht11
+#from flask_apscheduler import APScheduler
+#import Adafruit_DHT as dht
 
 pi.setmode(pi.BCM)
 
+LIGHT_PIN = 21
+pi.setup(LIGHT_PIN, pi.IN)
+light = not pi.input(LIGHT_PIN)
+
 
 #-------------------------------------------
-dhtpin=11
+dhtpin=20
 delayt = .1 
 value = 0 
-ldr = 7 
+ldr = 21
+
+
 
 dir = os.path.dirname(os.path.abspath(__file__)) + '/sqldata.db'
-DHT_sensor=Adafruit_DHT.DHT11
-sensor_humidity, sensor_temperature = Adafruit_DHT.read_retry(DHT_sensor, dhtpin)
+# DHT_sensor=Adafruit_DHT.DHT11
+#sensor_humidity, sensor_temperature = dht.read_retry(dht.DHT11, 20)
+sensor_humidity, sensor_temperature = 10,12
+instance = dht11.DHT11(pin=20)
+
+dht_res = instance.read()
+if dht_res.is_valid():
+    s_temp = dht_res.temperature
+    s_humidity = dht_res.humidity
+
+
 
 app = Flask(__name__)
-temp=sensor_temperature
-humidity =sensor_humidity
-light=0
+
+
+light=""
 relay1=0
 relay2=0
 key=0
+#pin_r1
+#pin_r2
+pi.setup(17, pi.OUT) 
+pi.output(17, 1)
 
-def rc_time (ldr):
-    count = 0
- 
-    #Output on the pin for
-    Pi.setup(ldr, Pi.OUT)
-    Pi.output(ldr, False)
-    time.sleep(delayt)
- 
-    #Change the pin back to input
-    Pi.setup(ldr, Pi.IN)
- 
-    #Count until the pin goes high
-    while (Pi.input(ldr) == 0):
-        count += 1
- 
-    return count
- 
+pi.setup(27, pi.OUT) 
+pi.output(27, 1)
+
+pi.setup(22, pi.OUT) 
+pi.output(22, 1)
 
 
-if humidity is not None and temp is not None:
-  print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temp, humidity))
-else:
-  print('مشکل دریافت اطلاعات!!!')
+
+
 
 def pinpress(pin):
     create_table()
@@ -97,18 +103,25 @@ def cnt_rel(relay,status):
     if relay=='1':
         if status=='on':
             relay1 = 1
+            pi.output(17, 0)
         elif status=='off':
             relay1 = 0    
+            pi.output(17, 1)
+            
     elif relay=='2':
         if status=='on':
             relay2 = 1
+            pi.output(27, 0)
         elif status=='off':
-            relay2 = 0                
+            relay2 = 0
+            pi.output(27, 1)
     elif relay=='3':
         if status=='on':
             light = 1
+            pi.output(22, 0)
         elif status=='off':
-            light = 0      
+            light = 0
+            pi.output(22, 1)
     insert()    
           
 
@@ -118,9 +131,12 @@ def cnt_rel(relay,status):
 #----------------------------------------
 @app.route('/')
 def index():
+    light = not pi.input(LIGHT_PIN)
     res = get_data()
     print(res)
-    return render_template('index.html',temp = int(res[1]) , humidity = int(res[2]),light=str(res[3]) , relay1=relay1 , relay2 = relay2)
+    
+
+    return render_template('index.html',temp = s_temp, humidity = s_humidity,light= light , relay1=relay1 , relay2 = relay2)
 
 @app.route('/create')
 def create():
@@ -134,25 +150,19 @@ def control_relays(relay,status):
 #-------------------------------------
 
 
+def scheduleTask():
+    print("This test runs every 3 seconds")
+
+
 
 if __name__=='__main__':
-    scheduler = APScheduler()
-    scheduler.add_job(func=insert,id='job',trigger='interval',seconds=10)
-    scheduler.start()
-    app.run(debug=True)
+   # scheduler = APScheduler()
+   # scheduler.add_job(func=scheduleTask,id='job',trigger='interval',seconds=10)
+   # scheduler.start()
+    app.run()
 
-try:
-    # Main loop
-    while True:
-        print("Ldr Value:")
-        value = rc_time(ldr)
-        print(value)
-        if ( value <= 10000 ):
-                print("Lights are ON")
-        if (value > 10000):
-                print("Lights are OFF")
-except KeyboardInterrupt:
-    pass
-finally:
-    Pi.cleanup()
+
+
+
+
 
